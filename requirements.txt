@@ -1,5 +1,7 @@
 streamlit
 pandas
+yfinance
+seaborn
 matplotlib
 scikit-learn
 statsmodels
