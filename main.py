@@ -1,6 +1,11 @@
+import sys
+import os
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+
+# Ensure the current directory is in the Python path
+sys.path.append(os.path.dirname(__file__))
 
 # Load the converted Python script
 import reliance_forecasting
@@ -10,7 +15,7 @@ st.title('Reliance Forecasting')
 
 # Load data
 st.header('Load Data')
-data = reliance_forecasting.historical_data()
+data = reliance_forecasting.load_data()
 st.write(data.head())
 
 # Data visualization
