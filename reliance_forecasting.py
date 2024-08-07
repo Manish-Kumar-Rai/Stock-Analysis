@@ -31,7 +31,7 @@ def plot_data(data, ax):
 
 # Function to forecast data
 def forecast(data):
-    model = ARIMA(data['Close'], order=(5, 1, 0))
+    model = ARIMA(data['Close'], order=(5, 1, 0.1))
     model_fit = model.fit()
     forecast_data = model_fit.forecast(steps=30)
     return forecast_data
