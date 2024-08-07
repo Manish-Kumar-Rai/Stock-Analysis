@@ -39,12 +39,13 @@ def forecast(data):
 # Function to plot forecast
 def plot_forecast(data, forecast, ax):
     ax.plot(data['Date'], data['Close'], label='Actual')
-    forecast_dates = pd.date_range(start=data['Date'].iloc[-1], periods=len(forecast)+1, closed='right')
+    forecast_dates = pd.date_range(start=data['Date'].iloc[-1], periods=len(forecast)+1, inclusive='right')
     ax.plot(forecast_dates, forecast, label='Forecast')
     ax.set_xlabel('Date')
     ax.set_ylabel('Close Price')
     ax.set_title('Reliance Industries - Forecast')
     ax.legend()
+
 
 # Function to summarize forecast
 def summarize_forecast(forecast):
