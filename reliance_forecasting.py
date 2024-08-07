@@ -265,10 +265,7 @@ print(f'Exponential Smoothing MSE (Differenced): {exp_smoothing_mse_diff}')
 # In[3]:
 
 
-get_ipython().system('jupyter nbconvert --to script C:\\\\Users\\\\WELcoME\\\\Stock analysis\\\\reliance_forecasting.py')
 
-
-# In[ ]:
 
 
 
