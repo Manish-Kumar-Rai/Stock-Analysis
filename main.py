@@ -10,7 +10,7 @@ st.title('Reliance Forecasting')
 
 # Load data
 st.header('Load Data')
-data = reliance_forecasting.load_data()
+data = reliance_forecasting.historical_data()
 st.write(data.head())
 
 # Data visualization
