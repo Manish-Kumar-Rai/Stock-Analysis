@@ -127,13 +127,6 @@ else:
 
 
 
-
-
-
-
-
-st.write(f'Exponential Smoothing MSE (Differenced): {exp_smoothing_mse_diff}')
-
 # Footer
 st.markdown("""
 ---
