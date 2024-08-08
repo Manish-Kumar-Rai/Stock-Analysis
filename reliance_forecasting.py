@@ -113,13 +113,19 @@ if __name__ == "__main__":
     print(f'SARIMA MSE (Differenced): {sarima_mse_diff}')
     print(f'Exponential Smoothing MSE (Differenced): {exp_smoothing_mse_diff}')
 
-# Add this function to relyiance_forecasting.py
+
+
 
 from datetime import timedelta
 
-def predict_future_price(data, model_name, days_ahead):
+def predict_price_on_date(data, model_name, future_date):
     """Predict the stock price for a specific future date."""
+    last_date = data['Date'].iloc[-1]
+    days_ahead = (future_date - last_date).days
     
+    if days_ahead <= 0:
+        raise ValueError("Future date must be after the last date in the dataset.")
+
     # Check which model is selected
     if model_name == "ARIMA":
         model = ARIMA(data['Differenced_Close'].dropna(), order=(5, 0, 0))
