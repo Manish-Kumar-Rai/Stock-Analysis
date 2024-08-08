@@ -35,11 +35,11 @@ def make_stationary(data):
     data['Differenced_Close'] = data['Close'].diff()
     return data
 
-# Plot ACF and PACF
-def plot_acf(data, ax):
+# Custom Plot ACF and PACF
+def plot_acf_custom(data, ax):
     plot_acf(data, ax=ax, lags=40)
 
-def plot_pacf(data, ax):
+def plot_pacf_custom(data, ax):
     plot_pacf(data, ax=ax, lags=40)
 
 # ARIMA model

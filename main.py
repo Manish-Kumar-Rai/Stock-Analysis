@@ -33,11 +33,11 @@ st.write(data[['Date', 'Differenced_Close']].head())
 # ACF and PACF plots
 st.header('ACF and PACF Plots')
 fig_acf, ax_acf = plt.subplots()
-reliance_forecasting.plot_acf(data['Differenced_Close'].dropna(), ax=ax_acf)
+reliance_forecasting.plot_acf_custom(data['Differenced_Close'].dropna(), ax=ax_acf)
 st.pyplot(fig_acf)
 
 fig_pacf, ax_pacf = plt.subplots()
-reliance_forecasting.plot_pacf(data['Differenced_Close'].dropna(), ax=ax_pacf)
+reliance_forecasting.plot_pacf_custom(data['Differenced_Close'].dropna(), ax=ax_pacf)
 st.pyplot(fig_pacf)
 
 # Forecasting with models
