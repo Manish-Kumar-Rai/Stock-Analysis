@@ -104,6 +104,20 @@ else:
     exp_smoothing_forecast_diff, exp_smoothing_mse_diff = reliance_forecasting.fit_exponential_smoothing(data)  
 
 
+# Add this section to main.py
+
+# Future date prediction
+st.sidebar.subheader("Future Date Prediction")
+future_days = st.sidebar.number_input("Days Ahead", min_value=1, max_value=365, value=30, step=1)
+
+# Predict future price
+st.header('Predict Future Price')
+predicted_price = reliance_forecasting.predict_future_price(data, selected_model, future_days)
+future_date = data['Date'].iloc[-1] + pd.Timedelta(days=future_days)
+st.write(f"Predicted Price on {future_date.strftime('%Y-%m-%d')}: {predicted_price:.2f}")
+
+
+
 # Model Performance Summary
 st.header('Model Performance Summary')
 if selected_model == "ARIMA":
