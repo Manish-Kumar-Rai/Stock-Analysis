@@ -48,9 +48,9 @@ reliance_forecasting.plot_data(data, ax)
 st.pyplot(fig)
 
 # Make data stationary
-# st.header('Make Data Stationary')
-# data = reliance_forecasting.make_stationary(data)
-# st.write(data[['Date', 'Differenced_Close']].head())
+st.header('Make Data Stationary')
+data = reliance_forecasting.make_stationary(data)
+st.write(data[['Date', 'Differenced_Close']].head())
 
 # ACF and PACF plots
 st.header('ACF and PACF Plots')
