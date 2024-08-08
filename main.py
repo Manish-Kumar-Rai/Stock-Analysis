@@ -3,7 +3,7 @@ import os
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from datetime import datetime
+from datetime import timedelta
 
 # Ensure the current directory is in the Python path
 sys.path.append(os.path.dirname(__file__))
@@ -71,13 +71,15 @@ st.pyplot(fig)
 
 # Add a section for future date prediction
 st.header('Predict Future Price')
-future_date = st.date_input('Select a date for prediction', min_value=data['Date'].iloc[-1].date())
+last_date_in_data = data['Date'].iloc[-1].date()  # Get the last date in the dataset
+
+# Allow the user to select a future date for prediction
+future_date = st.date_input('Select a future date for prediction', min_value=last_date_in_data + timedelta(days=1))
+
+# Predict the future price based on the selected date
 if future_date:
-    try:
-        future_price = reliance_forecasting.predict_future_price(data, future_date)
-        st.write(f'Predicted price on {future_date}: {future_price}')
-    except ValueError as e:
-        st.error(str(e))
+    future_price = reliance_forecasting.predict_future_price(data, future_date)
+    st.write(f'Predicted price on {future_date}: {future_price}')
 
 # Summary
 st.header('Model Performance Summary')
