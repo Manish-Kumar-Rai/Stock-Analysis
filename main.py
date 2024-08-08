@@ -3,7 +3,6 @@ import os
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import warnings
 
 # Ensure the current directory is in the Python path
 sys.path.append(os.path.dirname(__file__))
@@ -18,6 +17,12 @@ st.title('Reliance Forecasting')
 st.header('Load Data')
 data = reliance_forecasting.load_data()
 st.write(data.head())
+
+# Data visualization
+st.header('Data Visualization')
+fig, ax = plt.subplots()
+reliance_forecasting.plot_data(data, ax)
+st.pyplot(fig)
 
 # Make data stationary
 st.header('Make Data Stationary')
