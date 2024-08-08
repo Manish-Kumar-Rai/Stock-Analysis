@@ -116,17 +116,15 @@ if __name__ == "__main__":
 
 
 
-from datetime import timedelta
-
+# Function to predict price for a specific future date
 def predict_price_on_date(data, model_name, future_date):
-    """Predict the stock price for a specific future date."""
     last_date = data['Date'].iloc[-1]
     days_ahead = (future_date - last_date).days
-    
+
     if days_ahead <= 0:
         raise ValueError("Future date must be after the last date in the dataset.")
 
-    # Check which model is selected
+    # Select and fit the model
     if model_name == "ARIMA":
         model = ARIMA(data['Differenced_Close'].dropna(), order=(5, 0, 0))
     elif model_name == "SARIMA":

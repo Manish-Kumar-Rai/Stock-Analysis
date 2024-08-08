@@ -73,19 +73,18 @@ ax.set_title('Reliance Industries - Forecast Comparison')
 ax.legend()
 st.pyplot(fig)
 
-# Future date prediction
+# Future date prediction using calendar
 st.sidebar.subheader("Future Date Prediction")
-future_date_str = st.sidebar.text_input("Enter Future Date (YYYY-MM-DD)", (data['Date'].iloc[-1] + pd.Timedelta(days=30)).strftime('%Y-%m-%d'))
-try:
-    future_date = datetime.strptime(future_date_str, '%Y-%m-%d')
-    if future_date <= data['Date'].iloc[-1]:
-        st.sidebar.error("Future date must be after the last date in the dataset.")
-    else:
+future_date = st.sidebar.date_input("Select Future Date", data['Date'].iloc[-1] + pd.Timedelta(days=30))
+if future_date <= data['Date'].iloc[-1]:
+    st.sidebar.error("Future date must be after the last date in the dataset.")
+else:
+    try:
         predicted_price = reliance_forecasting.predict_price_on_date(data, selected_model, future_date)
         st.header('Predict Future Price')
         st.write(f"Predicted Price on {future_date.strftime('%Y-%m-%d')}: {predicted_price:.2f}")
-except ValueError:
-    st.sidebar.error("Please enter a valid date in the format YYYY-MM-DD.")
+    except ValueError as e:
+        st.sidebar.error(str(e))
 
 # Summary
 st.header('Model Performance Summary')
