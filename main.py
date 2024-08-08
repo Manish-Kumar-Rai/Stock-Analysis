@@ -40,51 +40,41 @@ fig_pacf, ax_pacf = plt.subplots()
 reliance_forecasting.plot_pacf(data['Differenced_Close'].dropna(), ax=ax_pacf)
 st.pyplot(fig_pacf)
 
-# Forecasting models
-selected_model = st.sidebar.selectbox("Select Model", ["ARIMA", "SARIMA", "Exponential Smoothing"])
+# Forecasting with models
+st.header('Forecasting with ARIMA')
+arima_forecast_diff, arima_mse_diff = reliance_forecasting.fit_arima(data)
+st.write(f'ARIMA MSE (Differenced): {arima_mse_diff}')
+st.write(arima_forecast_diff)
 
-st.header(f'Forecasting with {selected_model}')
-if selected_model == "ARIMA":
-    arima_forecast_diff, arima_mse_diff = reliance_forecasting.fit_arima(data)
-    st.write(f'ARIMA MSE (Differenced): {arima_mse_diff}')
-    st.write(arima_forecast_diff)
-elif selected_model == "SARIMA":
-    sarima_forecast_diff, sarima_mse_diff = reliance_forecasting.fit_sarima(data)
-    st.write(f'SARIMA MSE (Differenced): {sarima_mse_diff}')
-    st.write(sarima_forecast_diff)
-else:
-    exp_smoothing_forecast_diff, exp_smoothing_mse_diff = reliance_forecasting.fit_exponential_smoothing(data)
-    st.write(f'Exponential Smoothing MSE (Differenced): {exp_smoothing_mse_diff}')
-    st.write(exp_smoothing_forecast_diff)
+st.header('Forecasting with SARIMA')
+sarima_forecast_diff, sarima_mse_diff = reliance_forecasting.fit_sarima(data)
+st.write(f'SARIMA MSE (Differenced): {sarima_mse_diff}')
+st.write(sarima_forecast_diff)
 
-# Plot forecast
+st.header('Forecasting with Exponential Smoothing')
+exp_smoothing_forecast_diff, exp_smoothing_mse_diff = reliance_forecasting.fit_exponential_smoothing(data)
+st.write(f'Exponential Smoothing MSE (Differenced): {exp_smoothing_mse_diff}')
+st.write(exp_smoothing_forecast_diff)
+
+# Plot forecast comparison
 st.header('Forecast Plot Comparison')
 fig, ax = plt.subplots(figsize=(12, 6))
 ax.plot(data['Date'][-100:], data['Differenced_Close'][-100:], label='Actual')
-if selected_model == "ARIMA":
-    ax.plot(data['Date'][-30:], arima_forecast_diff, label='ARIMA Forecast')
-elif selected_model == "SARIMA":
-    ax.plot(data['Date'][-30:], sarima_forecast_diff, label='SARIMA Forecast')
-else:
-    ax.plot(data['Date'][-30:], exp_smoothing_forecast_diff, label='Exponential Smoothing Forecast')
+ax.plot(data['Date'][-30:], arima_forecast_diff, label='ARIMA Forecast')
+ax.plot(data['Date'][-30:], sarima_forecast_diff, label='SARIMA Forecast')
+ax.plot(data['Date'][-30:], exp_smoothing_forecast_diff, label='Exponential Smoothing Forecast')
 ax.set_xlabel('Date')
 ax.set_ylabel('Differenced Close Price')
 ax.set_title('Reliance Industries - Forecast Comparison')
 ax.legend()
 st.pyplot(fig)
 
-# Future date prediction using calendar
-st.sidebar.subheader("Future Date Prediction")
-future_date = st.sidebar.date_input("Select Future Date", data['Date'].iloc[-1] + pd.Timedelta(days=30))
-if future_date <= data['Date'].iloc[-1]:
-    st.sidebar.error("Future date must be after the last date in the dataset.")
-else:
-    try:
-        predicted_price = reliance_forecasting.predict_price_on_date(data, selected_model, future_date)
-        st.header('Predict Future Price')
-        st.write(f"Predicted Price on {future_date.strftime('%Y-%m-%d')}: {predicted_price:.2f}")
-    except ValueError as e:
-        st.sidebar.error(str(e))
+# Add a section for future date prediction
+st.header('Predict Future Price')
+future_date = st.date_input('Select a date for prediction', min_value=data['Date'].iloc[-1])
+if future_date:
+    future_price = reliance_forecasting.predict_future_price(data, future_date)
+    st.write(f'Predicted price on {future_date}: {future_price}')
 
 # Summary
 st.header('Model Performance Summary')
