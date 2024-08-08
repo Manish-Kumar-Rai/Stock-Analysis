@@ -95,6 +95,24 @@ ax.set_title('Reliance Industries - Forecast Comparison')
 ax.legend()
 st.pyplot(fig)
 
+# Forecasting with ARIMA
+st.header('Forecasting with ARIMA')
+arima_forecast_diff, arima_mse_diff = reliance_forecasting.fit_arima(data)
+st.write(f'ARIMA MSE (Differenced): {arima_mse_diff}')
+st.write(arima_forecast_diff)
+
+# Forecasting with SARIMA
+st.header('Forecasting with SARIMA')
+sarima_forecast_diff, sarima_mse_diff = reliance_forecasting.fit_sarima(data)
+st.write(f'SARIMA MSE (Differenced): {sarima_mse_diff}')
+st.write(sarima_forecast_diff)
+
+# Forecasting with Exponential Smoothing
+st.header('Forecasting with Exponential Smoothing')
+exp_smoothing_forecast_diff, exp_smoothing_mse_diff = reliance_forecasting.fit_exponential_smoothing(data)
+st.write(f'Exponential Smoothing MSE (Differenced): {exp_smoothing_mse_diff}')
+st.write(exp_smoothing_forecast_diff)
+
 # Model Performance Summary
 st.header('Model Performance Summary')
 st.write(f'ARIMA MSE (Differenced): {arima_mse_diff}')
