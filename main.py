@@ -71,10 +71,13 @@ st.pyplot(fig)
 
 # Add a section for future date prediction
 st.header('Predict Future Price')
-future_date = st.date_input('Select a date for prediction', min_value=data['Date'].iloc[-1])
+future_date = st.date_input('Select a date for prediction', min_value=data['Date'].iloc[-1].date())
 if future_date:
-    future_price = reliance_forecasting.predict_future_price(data, future_date)
-    st.write(f'Predicted price on {future_date}: {future_price}')
+    try:
+        future_price = reliance_forecasting.predict_future_price(data, future_date)
+        st.write(f'Predicted price on {future_date}: {future_price}')
+    except ValueError as e:
+        st.error(str(e))
 
 # Summary
 st.header('Model Performance Summary')

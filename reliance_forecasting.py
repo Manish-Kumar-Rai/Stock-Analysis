@@ -71,9 +71,17 @@ def predict_future_price(data, future_date):
     model = ARIMA(data['Close'], order=(5, 0, 0))
     model_fit = model.fit()
     
+    # Ensure future_date is a datetime object and get only the date part
+    if isinstance(future_date, pd.Timestamp):
+        future_date = future_date.date()
+    
     # Determine the number of days between the last known date and the future date
-    last_known_date = data['Date'].iloc[-1]
+    last_known_date = data['Date'].iloc[-1].date()  # Convert to date object
     days_ahead = (future_date - last_known_date).days
+    
+    # Check if the future date is in the past
+    if days_ahead <= 0:
+        raise ValueError("The future date must be after the last known date in the dataset.")
     
     # Forecast future price
     forecast = model_fit.forecast(steps=days_ahead)
