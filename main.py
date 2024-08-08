@@ -32,8 +32,8 @@ Welcome to the Reliance Industries Stock Price Forecasting app. This application
 # Sidebar
 st.sidebar.header("User Options")
 selected_model = st.sidebar.selectbox("Select Model for Forecasting", ["ARIMA", "SARIMA", "Exponential Smoothing"])
-st.sidebar.write("### Model Parameters")
-days = st.sidebar.slider("Select Forecast Horizon (Days)", 10, 100, 30, step=10)
+# st.sidebar.write("### Model Parameters")
+# days = st.sidebar.slider("Select Forecast Horizon (Days)", 10, 100, 30, step=10)
 
 # Load data
 st.header('Load Data')
@@ -73,13 +73,13 @@ st.header('Forecasting')
 
 if selected_model == "ARIMA":
     st.subheader('Forecasting with ARIMA')
-    forecast_diff, mse_diff = reliance_forecasting.fit_arima(data,days)
+    forecast_diff, mse_diff = reliance_forecasting.fit_arima(data)
 elif selected_model == "SARIMA":
     st.subheader('Forecasting with SARIMA')
-    forecast_diff, mse_diff = reliance_forecasting.fit_sarima(data,days)
+    forecast_diff, mse_diff = reliance_forecasting.fit_sarima(data)
 else:
     st.subheader('Forecasting with Exponential Smoothing')
-    forecast_diff, mse_diff = reliance_forecasting.fit_exponential_smoothing(data,days)
+    forecast_diff, mse_diff = reliance_forecasting.fit_exponential_smoothing(data)
 
 st.write(f'MSE (Differenced): {mse_diff}')
 st.write(forecast_diff)
@@ -97,11 +97,11 @@ st.pyplot(fig)
 
 
 if selected_model == "ARIMA":
-    arima_forecast_diff, arima_mse_diff = reliance_forecasting.fit_arima(data,days)
+    arima_forecast_diff, arima_mse_diff = reliance_forecasting.fit_arima(data)
 elif selected_model == "SARIMA":
-    sarima_forecast_diff, sarima_mse_diff = reliance_forecasting.fit_sarima(data,days)
+    sarima_forecast_diff, sarima_mse_diff = reliance_forecasting.fit_sarima(data)
 else:
-    exp_smoothing_forecast_diff, exp_smoothing_mse_diff = reliance_forecasting.fit_exponential_smoothing(data,days)  
+    exp_smoothing_forecast_diff, exp_smoothing_mse_diff = reliance_forecasting.fit_exponential_smoothing(data)  
 
 
 # Model Performance Summary

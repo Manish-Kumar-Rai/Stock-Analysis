@@ -61,28 +61,28 @@ def make_stationary(data):
     return data
 
 # Function to fit ARIMA model
-def fit_arima(data,days):
+def fit_arima(data):
     arima_model_diff = ARIMA(data['Differenced_Close'].dropna(), order=(5, 0, 0))
     arima_fit_diff = arima_model_diff.fit()
-    arima_forecast_diff = arima_fit_diff.forecast(steps=days)
+    arima_forecast_diff = arima_fit_diff.forecast(steps=30)
     arima_mse_diff = mean_squared_error(data['Differenced_Close'][-30:], arima_forecast_diff)
     print(f'ARIMA MSE (Differenced): {arima_mse_diff}')
     return arima_forecast_diff, arima_mse_diff
 
 # Function to fit SARIMA model
-def fit_sarima(data,days):
+def fit_sarima(data):
     sarima_model_diff = SARIMAX(data['Differenced_Close'].dropna(), order=(1, 0, 1), seasonal_order=(1, 0, 1, 12))
     sarima_fit_diff = sarima_model_diff.fit(disp=False)
-    sarima_forecast_diff = sarima_fit_diff.forecast(steps=days)
+    sarima_forecast_diff = sarima_fit_diff.forecast(steps=30)
     sarima_mse_diff = mean_squared_error(data['Differenced_Close'][-30:], sarima_forecast_diff)
     print(f'SARIMA MSE (Differenced): {sarima_mse_diff}')
     return sarima_forecast_diff, sarima_mse_diff
 
 # Function to fit Exponential Smoothing model
-def fit_exponential_smoothing(data,days):
+def fit_exponential_smoothing(data):
     exp_smoothing_model_diff = ExponentialSmoothing(data['Differenced_Close'].dropna(), trend='add', seasonal='add', seasonal_periods=12)
     exp_smoothing_fit_diff = exp_smoothing_model_diff.fit()
-    exp_smoothing_forecast_diff = exp_smoothing_fit_diff.forecast(steps=days)
+    exp_smoothing_forecast_diff = exp_smoothing_fit_diff.forecast(steps=30)
     exp_smoothing_mse_diff = mean_squared_error(data['Differenced_Close'][-30:], exp_smoothing_forecast_diff)
     print(f'Exponential Smoothing MSE (Differenced): {exp_smoothing_mse_diff}')
     return exp_smoothing_forecast_diff, exp_smoothing_mse_diff
